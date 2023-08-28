@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: CourierCreateTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 5.799 s <<< FAILURE! - in CourierCreateTest
+createCourierWithNullFirstNameTest(CourierCreateTest)  Time elapsed: 0.243 s  <<< FAILURE!
+java.lang.AssertionError: Неверный код ответа при попытке создания курьера без имени expected:<400> but was:<201>
+	at CourierCreateTest.createCourierWithNullFirstNameTest(CourierCreateTest.java:79)
+
