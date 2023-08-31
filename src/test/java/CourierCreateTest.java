@@ -11,7 +11,7 @@ import org.apache.http.HttpStatus;
 public class CourierCreateTest {
     private Courier courier;
     private CourierCreation courierCreation;
-    private int courierId;
+    private Integer courierId;
 
     @Before
     public void setUp() {
@@ -20,7 +20,9 @@ public class CourierCreateTest {
 
     @After
     public void cleanUp() {
-        courierCreation.delete(String.valueOf(courierId));
+        if (courierId != null) {
+            CourierCreation.delete(String.valueOf(courierId));
+        }
     }
 
     @Test
@@ -32,6 +34,7 @@ public class CourierCreateTest {
         response.then().assertThat().body("ok", equalTo(true));
         Response responseLogin = courierCreation.login(CourierCredentials.from(courier));
         assertEquals("Логин не удался. Курьер ранее не создан", 200, responseLogin.statusCode());
+        courierId = responseLogin.path("id");
     }
 
     @Test
@@ -45,6 +48,8 @@ public class CourierCreateTest {
         assertEquals(HttpStatus.SC_CONFLICT,response.statusCode());
         response.then().assertThat().statusCode(409);
         response.then().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+        Response responseLogin = courierCreation.login(CourierCredentials.from(courierDublicate));
+        courierId = responseLogin.path("id");
     }
 
     @Test
